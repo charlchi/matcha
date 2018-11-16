@@ -1,0 +1,16 @@
+{
+	"name": "matcha",
+	"main": "server.js",
+	"author": "cmoller",
+	"scripts": {
+		"startdb": "mongod --dbpath ./db/",
+		"startserver": "./node_modules/nodemon/bin/nodemon.js server.js",
+		"start": "npm run startdb && npm run startserver"
+	},
+	"dependencies": {
+		"body-parser": "^1.18.3",
+		"express": "^4.16.4",
+		"mongoose": "^5.3.12",
+		"nodemon": "^1.18.6"
+	}
+}
