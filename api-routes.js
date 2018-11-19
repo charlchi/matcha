@@ -10,14 +10,16 @@ router.get('/', function (req, res) {
 
 var userController = require('./userController');
 
-router.route('/users')
-    .get(userController.index)
-    .post(userController.new);
+router.route('/register')
+    .post(userController.register);
 
-router.route('/users/:user_id')
-    .get(userController.view)
-    .patch(userController.update)
-    .put(userController.update)
-    .delete(userController.delete);
+router.route('/login')
+    .post(userController.login);
+
+router.route('/deleteAll')
+    .get(userController.deleteAll);
+
+router.route('/index')
+    .get(userController.index);
 
 module.exports = router;

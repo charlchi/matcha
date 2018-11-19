@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Matcha</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+	<link rel="stylesheet" href="style/style.css">
+	<link rel="shortcut icon" href="favicon.png" />
+</head>
+<body>
+
+	<div id="header"></div>
+
+	<div class="overlay" id="start">
+		<div class="inner">
+			<h1 class="title">Matcha</h1>
+			<div>Connecting lovers since 2018.</div><br>
+			<div class="mybutton" onclick="show('login');"> Login </div> or 
+			<div class="mybutton" onclick="show('register');"> Register </div>
+		</div>
+	</div>
+
+	<div class="overlay" id="login" style="display: none">
+		<div class="inner">
+			<form name="login" onsubmit="return false">
+				<h1 class="title">Login</h1>
+				<p id="logmsg"></p>
+				<div class="mybutton" onclick="hide('login');"> Back </div>
+				<p><input type="text" name="email"> Email</p>
+				<p><input type="text" name="pass"> Password</p>
+				<span style="font-size: 0.7em;">Forgot your password?</span><br>
+				<p class="mybutton" onclick="login_validate();"> Login </p>
+			</form>
+		</div>
+	</div>
+
+	<div class="overlay" id="register" style="display: none">
+		<div class="inner">
+			<form name="register" onsubmit="return false">
+				<h1 class="title">Register</h1>
+				<p id="regmsg"></p>
+				<div class="mybutton" onclick="hide('register');"> Back </div>
+				<p><input type="text" name="name"> Name</p>
+				<p><input type="text" name="surname"> Surname</p>
+				<p><input type="text" name="email"> Email</p>
+				<p><input type="password" name="pass"> Password</p>
+				<p><input type="password" name="cpass"> Confirm password</p>
+				<p class="mybutton" onclick="register_validate();"> Register </p>
+			</form>
+		</div>
+	</div>
+</body>
+
+<script type="text/javascript">
+
+function show(item) {
+	var elem = document.getElementById(item);
+	elem.style.display = "block";
+}
+
+function hide(item) {
+	var elem = document.getElementById(item);
+	elem.style.display = "none";
+}
+
+function register_validate() {
+	xhr = new XMLHttpRequest();
+	xhr.open("POST", '/api/register', true);	
+	xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.onload = function() {
+		var msg = document.getElementById("regmsg");
+		var data = JSON.parse(this.responseText);
+		if (data['message'] == 'OK') {
+			location.reload();
+		} else {
+			msg.innerHTML = "*" + data['message'];
+		}
+		console.log(data);
+	};
+	xhr.send(JSON.stringify({
+		'name': document.forms["register"]["name"].value,
+		'surname': document.forms["register"]["surname"].value,
+		'email': document.forms["register"]["email"].value,
+		'pass': document.forms["register"]["pass"].value,
+		'cpass': document.forms["register"]["cpass"].value
+	}));
+}
+
+function login_validate() {
+	console.log("hi");
+	xhr = new XMLHttpRequest();
+	xhr.open("POST", '/api/login', true);
+	xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.onload = function() {
+		var msg = document.getElementById("logmsg");
+		var data = JSON.parse(this.responseText);
+		if (data['message'] == 'OK') {
+			document.cookie = "login="+document.forms["login"]["email"].value+"path=/";
+			location.reload();
+		} else {
+			msg.innerHTML = "*" + data['message'];
+		}
+		console.log(data);
+	};
+	xhr.send(JSON.stringify({
+		'email': document.forms["login"]["email"].value,
+		'pass': document.forms["login"]["pass"].value,
+	}));
+}
+
+</script>
+
+</html>
