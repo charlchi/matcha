@@ -21,30 +21,30 @@
 
 	<div class="overlay" id="login" style="display: none">
 		<div class="inner">
-			<form name="login" onsubmit="return false">
+			<form name="login" onsubmit="login_validate(); return false;">
 				<h1 class="title">Login</h1>
 				<p id="logmsg"></p>
 				<div class="mybutton" onclick="hide('login');"> Back </div>
-				<p><input type="text" name="email"> Email</p>
-				<p><input type="text" name="pass"> Password</p>
+				<p><input type="text" name="email" required> Email</p>
+				<p><input type="text" name="pass" required> Password</p>
 				<span style="font-size: 0.7em;">Forgot your password?</span><br>
-				<p class="mybutton" onclick="login_validate();"> Login </p>
+				<p><input type="submit" value="Login"></p>
 			</form>
 		</div>
 	</div>
 
 	<div class="overlay" id="register" style="display: none">
 		<div class="inner">
-			<form name="register" onsubmit="return false">
+			<form name="register" onsubmit="register_validate(); return false;">
 				<h1 class="title">Register</h1>
 				<p id="regmsg"></p>
 				<div class="mybutton" onclick="hide('register');"> Back </div>
-				<p><input type="text" name="name"> Name</p>
-				<p><input type="text" name="surname"> Surname</p>
-				<p><input type="text" name="email"> Email</p>
-				<p><input type="password" name="pass"> Password</p>
-				<p><input type="password" name="cpass"> Confirm password</p>
-				<p class="mybutton" onclick="register_validate();"> Register </p>
+				<p><input type="text" name="name" required> Name</p>
+				<p><input type="text" name="surname" required> Surname</p>
+				<p><input type="text" name="email" required> Email</p>
+				<p><input type="password" name="pass" required> Password</p>
+				<p><input type="password" name="cpass" required> Confirm password</p>
+				<p><input type="submit" value="Register"></p>
 			</form>
 		</div>
 	</div>
@@ -63,6 +63,7 @@ function hide(item) {
 }
 
 function register_validate() {
+	console.log("Register");
 	xhr = new XMLHttpRequest();
 	xhr.open("POST", '/api/register', true);	
 	xhr.setRequestHeader('Content-Type', 'application/json');
@@ -72,7 +73,7 @@ function register_validate() {
 		if (data['message'] == 'OK') {
 			location.reload();
 		} else {
-			msg.innerHTML = "*" + data['message'];
+			msg.innerHTML = "*" + data['errmsg'];
 		}
 		console.log(data);
 	};
@@ -86,7 +87,7 @@ function register_validate() {
 }
 
 function login_validate() {
-	console.log("hi");
+	console.log("Login");
 	xhr = new XMLHttpRequest();
 	xhr.open("POST", '/api/login', true);
 	xhr.setRequestHeader('Content-Type', 'application/json');
@@ -95,7 +96,10 @@ function login_validate() {
 		var data = JSON.parse(this.responseText);
 		if (data['message'] == 'OK') {
 			document.cookie = "login="+document.forms["login"]["email"].value+"path=/";
-			location.reload();
+			console.log(data['data']);
+			if (data['data'].isFullyRegistered == 0)
+				location.href = "/register";
+			//location.reload();
 		} else {
 			msg.innerHTML = "*" + data['message'];
 		}

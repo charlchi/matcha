@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Matcha</title>
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
+	<link rel="stylesheet" href="style/style.css">
+	<link rel="shortcut icon" href="favicon.png" />
+</head>
+<body style="background-color: #300;">
+
+	<div id="header"></div>
+
+	<div class="inner">
+		<form name="register" onsubmit="register_validate(); return false;">
+			<h1 class="title">Complete registration:</h1>
+			<p id="regmsg"></p>
+			<p>         Gender <select>
+				<option value="Adamasgender">Adamasgender</option>
+				<option value="Aerogender">Aerogender</option>
+				<option value="Aesthetigender">Aesthetigender</option>
+				<option value="Affectugender">Affectugender</option>
+				<option value="Agender">Agender</option>
+				<option value="Agenderflux">Agenderflux</option>
+				<option value="Alexigender">Alexigender</option>
+				<option value="Aliusgender">Aliusgender</option>
+				<option value="Amaregender">Amaregender</option>
+				<option value="Ambigender">Ambigender</option>
+				<option value="Ambonec">Ambonec</option>
+				<option value="Amicagender">Amicagender</option>
+				<option value="Androgyne">Androgyne</option>
+				<option value="Anesigender">Anesigender</option>
+				<option value="Angenital">Angenital</option>
+				<option value="Anogender">Anogender</option>
+				<option value="Anongender">Anongender</option>
+				<option value="Antegender">Antegender</option>
+				<option value="Anxiegender">Anxiegender</option>
+				<option value="Apagender">Apagender</option>
+				<option value="Apconsugender">Apconsugender</option>
+				<option value="Astergender">Astergender</option>
+				<option value="Astralgender">Astralgender</option>
+				<option value="Autigender">Autigender</option>
+				<option value="Autogender">Autogender</option>
+				<option value="Axigender">Axigender</option>
+				<option value="Bigender">Bigender</option>
+				<option value="Biogender">Biogender</option>
+				<option value="Blurgender">Blurgender</option>
+				<option value="Boyflux">Boyflux</option>
+				<option value="Burstgender">Burstgender</option>
+				<option value="Caelgender">Caelgender</option>
+				<option value="Cassgender">Cassgender</option>
+				<option value="Cassflux">Cassflux</option>
+				<option value="Cavusgender">Cavusgender</option>
+				<option value="Cendgender">Cendgender</option>
+				<option value="Ceterofluid">Ceterofluid</option>
+				<option value="Ceterogender">Ceterogender</option>
+				<option value="Cisgender">Cisgender</option>
+				<option value="Cloudgender">Cloudgender</option>
+				<option value="Collgender">Collgender</option>
+				<option value="Colorgender">Colorgender</option>
+				<option value="Commogender">Commogender</option>
+				<option value="Condigender">Condigender</option>
+				<option value="Deliciagender">Deliciagender</option>
+				<option value="Demifluid">Demifluid</option>
+				<option value="Demiflux">Demiflux</option>
+				<option value="Demigender">Demigender</option>
+				<option value="Domgender">Domgender</option>
+				<option value="Demi">Demi</option>
+				<option value="Duragender">Duragender</option>
+				<option value="Egogender">Egogender</option>
+				<option value="Epicene">Epicene</option>
+				<option value="Espigender">Espigender</option>
+				<option value="Exgender">Exgender</option>
+				<option value="Existigender">Existigender</option>
+				<option value="Female">Female</option>
+				<option value="Femfluid">Femfluid</option>
+				<option value="Femgender">Femgender</option>
+				<option value="Fluidflux">Fluidflux</option>
+				<option value="Gemigender">Gemigender</option>
+				<option value="Genderblank">Genderblank</option>
+				<option value="Genderflow">Genderflow</option>
+				<option value="Genderfluid">Genderfluid</option>
+				<option value="Genderflux">Genderflux</option>
+				<option value="Genderfuzz">Genderfuzz</option>
+				<option value="Gender">Gender</option>
+				<option value="Genderpunk">Genderpunk</option>
+				<option value="Genderqueer">Genderqueer</option>
+				<option value="Genderwitched">Genderwitched</option>
+				<option value="Girlflux">Girlflux</option>
+				<option value="Glassgender">Glassgender</option>
+				<option value="Glimragender">Glimragender</option>
+				<option value="Greygender">Greygender</option>
+				<option value="Gyragender">Gyragender</option>
+				<option value="Healgender">Healgender</option>
+				<option value="Heliogender">Heliogender</option>
+				<option value="Hemigender">Hemigender</option>
+				<option value="Horogender">Horogender</option>
+				<option value="Hydrogender">Hydrogender</option>
+				<option value="Imperigender">Imperigender</option>
+				<option value="Intergender">Intergender</option>
+				<option value="Juxera">Juxera</option>
+				<option value="Libragender">Libragender</option>
+				<option value="Male">Male</option>
+				<option value="Magigender">Magigender</option>
+				<option value="Mascfluid">Mascfluid</option>
+				<option value="Mascgender">Mascgender</option>
+				<option value="Maverique">Maverique</option>
+				<option value="Mirrorgender">Mirrorgender</option>
+				<option value="Molligender">Molligender</option>
+				<option value="Multigender">Multigender</option>
+				<option value="Nanogender">Nanogender</option>
+				<option value="Neutrois">Neutrois</option>
+				<option value="Nonbinary">Nonbinary</option>
+				<option value="Omnigender">Omnigender</option>
+				<option value="Oneirogender">Oneirogender</option>
+				<option value="Pangender">Pangender</option>
+				<option value="Paragender">Paragender</option>
+				<option value="Perigender">Perigender</option>
+				<option value="Polygender">Polygender</option>
+				<option value="Proxvir">Proxvir</option>
+				<option value="Quoigender">Quoigender</option>
+				<option value="Subgender">Subgender</option>
+				<option value="Surgender">Surgender</option>
+				<option value="Systemgender">Systemgender</option>
+				<option value="Tragender">Tragender</option>
+				<option value="Transgender">Transgender</option>
+				<option value="Transneutral">Transneutral</option>
+				<option value="Trigender">Trigender</option>
+				<option value="Vapogender">Vapogender</option>
+				<option value="Venngender">Venngender</option>
+				<option value="Verangender">Verangender</option>
+				<option value="Vibragender">Vibragender</option>
+			</select></p>
+			<p>Sexual interest <select>
+				<option value="Male">Male</option>
+				<option value="Female">Female</option>
+				<option value="Other">Other</option>
+			</select></p>
+			<p>            Age <input type="number" name="age" min='18' max='90' value='18'required></p>
+			<p>          Phone <input type="text" name="phone" required></p>
+			<p>Add tags:</p>
+			<p>Search <input type="text" name="tags" required></p>
+			<p>Bio:</p>
+			<p><textarea rows="4" cols="50" required></textarea></p>
+			<p>Upload 5 pictures of yourself:</p>
+			<p>1 : <input type="file" name="file1"></p>
+			<p>2 : <input type="file" name="file2"></p>
+			<p>3 : <input type="file" name="file3"></p>
+			<p>4 : <input type="file" name="file4"></p>
+			<p>5 : <input type="file" name="file5"></p>
+			<p><input type="submit" value="Register"></p>
+		</form>
+	</div>
+</body>
+
+<script type="text/javascript">
+
+function register_validate() {
+	console.log(document.forms["register"]);/*
+	xhr = new XMLHttpRequest();
+	xhr.open("POST", '/api/register', true);	
+	xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.onload = function() {
+		var msg = document.getElementById("regmsg");
+		var data = JSON.parse(this.responseText);
+		if (data['message'] == 'OK') {
+			location.reload();
+		} else {
+			msg.innerHTML = "*" + data['message'];
+		}
+		console.log(data);
+	};
+	xhr.send(JSON.stringify({
+		'name': document.forms["register"]["name"].value,
+		'surname': document.forms["register"]["surname"].value,
+		'email': document.forms["register"]["email"].value,
+		'pass': document.forms["register"]["pass"].value,
+		'cpass': document.forms["register"]["cpass"].value
+	}));
+	*/
+}
+
+</script>
+
+</html>

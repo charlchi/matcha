@@ -19,16 +19,6 @@ exports.index = (req, res) => {
     });
 };
 
-/*
-bcrypt.compare('somePassword', hash, function(err, res) {
-  if(res) {
-   // Passwords match
-  } else {
-   // Passwords don't match
-  } 
-});
-*/
-
 exports.register = (req, res) => {
     if (req.body.pass != req.body.cpass) {
         res.json({message: 'Passwords don\'t match.'});
@@ -37,6 +27,7 @@ exports.register = (req, res) => {
         user.name = req.body.name;
         user.surname = req.body.surname;
         user.email = req.body.email;
+        user.isFullyRegistered = 0;
         bcrypt.hash(req.body.pass, 10, (err, hash) => {
             if (err) {
                 res.send(err);
