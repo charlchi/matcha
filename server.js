@@ -2,6 +2,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var pug = require('pug');
 var app = express();
 var apiRoutes = require("./api-routes");
 var fs = require('fs');
@@ -19,19 +20,19 @@ var port = process.env.PORT || 8080;
 // Send message for default URL
 
 app.get('/', (req, res) => {
-	fs.readFile('index.html', (err, data) => {
-		res.writeHead(200, {'Content-Type': 'text/html'});
-		res.write(data);
-		res.end();
-	});
+	res.writeHead(200, {'Content-Type': 'text/html'});
+	res.write(pug.renderFile('views/index.pug', {
+  	name: 'Timothy'
+	}));
+	res.end();
 });
 
 app.get('/register', (req, res) => {
-	fs.readFile('register.html', (err, data) => {
-		res.writeHead(200, {'Content-Type': 'text/html'});
-		res.write(data);
-		res.end();
-	});
+	res.writeHead(200, {'Content-Type': 'text/html'});
+	res.write(pug.renderFile('views/register.pug', {
+  	name: 'Timothy'
+	}));
+	res.end();
 });
 
 app.use('/api', apiRoutes);

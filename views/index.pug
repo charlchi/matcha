@@ -1,0 +1,110 @@
+doctype html
+html
+	head
+		title Matcha
+		link(href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet")
+		link(rel="stylesheet" href="style/style.css")
+		link(rel="shortcut icon" href="favicon.png")
+body
+	div#header
+
+	div.overlay#start
+		div.inner
+			h1.title Matcha
+			div Connecting lovers since 2018.
+			div.mybutton(onclick="show('login')") Login
+			<br> 
+			div.mybutton(onclick="show('register')") Register
+	div.overlay(id="login" style="display: none")
+		div.inner
+			form(name="login" onsubmit="login_validate(); return false;")
+				h1.title Login
+				p#logmsg
+				div.mybutton(onclick="hide('login');") Back
+				p Email    :
+					input(type="text" name="email" required)
+				p Password :
+					input(type="text" name="pass" required)
+				span(style="font-size: 0.7em;") Forgot your password?
+				<br>
+				p
+					input(type="submit" value="Login")
+	div.overlay#register(style="display: none")
+		div.inner
+			form(name="register" onsubmit="register_validate(); return false;")
+				h1.title Register
+				p#regmsg
+				div.mybutton(onclick="hide('register');") Back
+				p Name     :
+					input(type="text" name="name" required)
+				p Surname  :
+					input(type="text" name="surname" required)
+				p Email    :
+					input(type="text" name="email" required)
+				p Password :
+					input(type="password" name="pass" required)
+				p Confirm  :
+					input(type="password" name="cpass" required)
+				p
+					input(type="submit" value="Register")
+
+script.
+	function show(item) {
+		var elem = document.getElementById(item);
+		elem.style.display = "block";
+	}
+	
+	function hide(item) {
+		var elem = document.getElementById(item);
+		elem.style.display = "none";
+	}
+	
+	function register_validate() {
+		console.log("Register");
+		xhr = new XMLHttpRequest();
+		xhr.open("POST", 'api/register', true);	
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onload = function() {
+			var msg = document.getElementById("regmsg");
+			var data = JSON.parse(this.responseText);
+			if (data['message'] == 'OK') {
+				location.reload();
+			} else {
+				msg.innerHTML = "*" + data['errmsg'];
+			}
+			console.log(data);
+		};
+		xhr.send(JSON.stringify({
+			'name': document.forms["register"]["name"].value,
+			'surname': document.forms["register"]["surname"].value,
+			'email': document.forms["register"]["email"].value,
+			'pass': document.forms["register"]["pass"].value,
+			'cpass': document.forms["register"]["cpass"].value
+		}));
+	}
+	
+	function login_validate() {
+		console.log("Login");
+		xhr = new XMLHttpRequest();
+		xhr.open("POST", 'api/login', true);
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onload = function() {
+			var msg = document.getElementById("logmsg");
+			var data = JSON.parse(this.responseText);
+			if (data['message'] == 'OK') {
+				document.cookie = "login="+document.forms["login"]["email"].value+"path=";
+				console.log(data['data']);
+				if (data['data'].isFullyRegistered == 0)
+					location.href = "/register";
+				else
+					location.reload();
+			} else {
+				msg.innerHTML = "*" + data['message'];
+			}
+			console.log(data);
+		};
+		xhr.send(JSON.stringify({
+			'email': document.forms["login"]["email"].value,
+			'pass': document.forms["login"]["pass"].value,
+		}));
+	}

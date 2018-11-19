@@ -17,7 +17,7 @@ var userSchema = mongoose.Schema({
     pass: {type: String, required: true},
     isFullyRegistered: {type: Number, required: true},
     fame: Number,
-    age: Number,
+    age: Date,
     gender: Number,
     preferences: {},
     tags: {},
