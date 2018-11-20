@@ -19,7 +19,10 @@ router.route('/login')
 router.route('/deleteAll')
     .get(userController.deleteAll);
 
-router.route('/index')
-    .get(userController.index);
+router.route('/getAll')
+    .get(userController.getAll);
+
+router.route('/getByMail')
+    .get(userController.getByMail);
 
 module.exports = router;

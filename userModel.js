@@ -24,7 +24,8 @@ var userSchema = mongoose.Schema({
     location: {},
     bio: String,
     phone: String,
-    create_date: { type: Date, default: Date.now}
+    create_date: {type: Date, default: Date.now},
+    notifications: {}
 });
 
 // Export User model

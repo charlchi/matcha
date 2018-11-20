@@ -10,7 +10,7 @@ body
 
 	div.overlay#start
 		div.inner
-			h1.title Matcha
+			h1.title #{title}
 			div Connecting lovers since 2018.
 			div.mybutton(onclick="show('login')") Login
 			<br> 
@@ -47,6 +47,7 @@ body
 					input(type="password" name="cpass" required)
 				p
 					input(type="submit" value="Register")
+	div#chat Hi
 
 script.
 	function show(item) {
@@ -93,7 +94,6 @@ script.
 			var data = JSON.parse(this.responseText);
 			if (data['message'] == 'OK') {
 				document.cookie = "login="+document.forms["login"]["email"].value+"path=";
-				console.log(data['data']);
 				if (data['data'].isFullyRegistered == 0)
 					location.href = "/registration";
 				else

@@ -98,3 +98,11 @@ textarea {
 	margin: 2px;
 	padding: 3px;
 }
+
+#chat {
+	width: 300px;
+	height: 300px;
+	position: fixed;
+	bottom: 0;
+	right: 15px;
+}
