@@ -95,7 +95,7 @@ script.
 				document.cookie = "login="+document.forms["login"]["email"].value+"path=";
 				console.log(data['data']);
 				if (data['data'].isFullyRegistered == 0)
-					location.href = "/register";
+					location.href = "/registration";
 				else
 					location.reload();
 			} else {

@@ -1,0 +1,77 @@
+doctype html
+html
+	head
+		title Matcha
+		link(href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet")
+		link(rel="stylesheet" href="style/style.css")
+		link(rel="shortcut icon" href="favicon.png")
+body(style="background-color: #300;")
+	div#header
+	div.inner
+		form(name="register" onsubmit="register_validate(); return false;")
+			h3.title #{title}
+			p#regmsg
+			p         Gender
+				select(name="gender")
+					option(value="Adamasgender") Male
+					option(value="Aerogender") Female
+					option(value="Aesthetigender") Other
+			p Sexual interest 
+				select(name="interest")
+					option(value="Male") Male
+					option(value="Female") Female
+					option(value="Both") Both
+					option(value="Other") Other
+					option(value="Other") Male and Other
+					option(value="Other") Female and Other
+			p  Date of Birth 
+				input(type="date" name="age" required)
+			p Add your interests:
+			p Search 
+				input(type="text" name="tags" required)
+			p Bio:
+			p 
+				textarea(rows="4" cols="50" name="bio" required)
+			p Upload 5 pictures of yourself:
+			p 1 :
+				input(type="file" name="file1")
+			p 2 : 
+				input(type="file" name="file2")
+			p 3 : 
+				input(type="file" name="file3")
+			p 4 : 
+				input(type="file" name="file4")
+			p 5 : 
+				input(type="file" name="file5")
+			p
+				input(type="submit" value="Register")
+
+script.
+
+	function register_validate() {
+		console.log(document.forms["register"]['gender'].value);
+		console.log(document.forms["register"]['interest'].value);
+		console.log(document.forms["register"]['age'].value);
+		/*
+		xhr = new XMLHttpRequest();
+		xhr.open("POST", '/api/register', true);	
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onload = function() {
+			var msg = document.getElementById("regmsg");
+			var data = JSON.parse(this.responseText);
+			if (data['message'] == 'OK') {
+				location.reload();
+			} else {
+				msg.innerHTML = "*" + data['message'];
+			}
+			console.log(data);
+		};
+		xhr.send(JSON.stringify({
+			'gender': document.forms["register"]["gender"].value,
+			'interest': document.forms["interest"]["surname"].value,
+			'age': document.forms["register"]["age"].value,
+			'bio': document.forms["register"]["bio"].value,
+			'tags': tags
+		}));
+		*/
+	}

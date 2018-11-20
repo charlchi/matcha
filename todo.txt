@@ -1,0 +1,69 @@
+
+
+
+
+______________Browsing____________
+- The user must be able to easily get a list of suggestions that match his/her profile.
+- You will only propose “interesting” profiles for example, only men for a heterosexual
+girls. You must manage bisexuality. If the orientation isn’t specified, the user will
+be considered bi-sexual.
+- You must cleverly match profiles:
+	- Same geographic area as the user.
+	- With a maximum of common tags.
+	- With a maximum “fame rating”.
+	- You must show in priority people from the same geographical area.
+	- The list must be sortable by age, localization, “fame rating” and common tags.
+	- The list must be filterable by age, localization, “fame rating” and common tags.
+	- A age gap.
+	- A “fame rating” gap.
+	- A location.
+	- One or multiple interests tags.
+resulting list must be sortable and filterable by age, location, “fame rating” and tags.
+-----------------------------------------------
+
+
+
+
+
+
+______________Profile of other users_______
+- When a user consults a profile, it must appear in his/her visit history.
+- If he has at least one picture “like” another user.
+- When two people “like” each other, they are connectd and can chat
+   If current user no picture, he/she cannot complete this action.
+- Check the “fame rating”.
+- See if the user is online, and if not see the date and time of the last connection.
+- Report the user as a “fake account”.
+- Block the user. A blocked user won’t appear anymore in the research results and
+won’t generate additional notifications.
+A user can clearly see if the consulted profile is connected or “like” his/her profile and
+must be able to “unlike” or be disconnected from that profile
+-----------------------------------------------
+
+
+
+
+
+
+
+
+______________Chat_____________
+real time chat from any page
+-----------------------------------------------
+
+
+
+
+
+
+
+
+______________Notifications______________
+A user must be notified in real time6 of the following events:
+- The user received a “like”.
+- The user’s profile has been checked.
+- The user received a message.
+- A “liked” user “liked” back.
+- A connected user “unliked” you.
+A user must be able to see, from any page that a notification hasn’t been read.
+-----------------------------------------------
