@@ -5,6 +5,79 @@ html
 		link(href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet")
 		link(rel="stylesheet" href="style/style.css")
 		link(rel="shortcut icon" href="favicon.png")
+
+	script.
+		function show(item) {
+			var elem = document.getElementById(item);
+			elem.style.display = "block";
+		}
+	
+		function hide(item) {
+			var elem = document.getElementById(item);
+			elem.style.display = "none";
+		}
+	
+		function register_submit() {
+			console.log("Register");
+			xhr = new XMLHttpRequest();
+			xhr.open("POST", 'api/register', true);	
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.onload = register_response;
+			xhr.send(JSON.stringify({
+				'name': document.forms["register"]["name"].value,
+				'surname': document.forms["register"]["surname"].value,
+				'email': document.forms["register"]["email"].value,
+				'pass': document.forms["register"]["pass"].value,
+				'cpass': document.forms["register"]["cpass"].value
+			}));
+		}
+
+		function register_response() {
+			var msg = document.getElementById("regmsg");
+			var data = JSON.parse(this.responseText);
+			if (data['message'] == 'OK') {
+				location.reload();
+			} else {
+				msg.innerHTML = "*" + data['errmsg'];
+			}
+			console.log(data);
+		}
+	
+		function login_submit() {
+			console.log("Login");
+			xhr = new XMLHttpRequest();
+			xhr.open("POST", 'api/login', true);
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.onload = login_response;
+			xhr.send(JSON.stringify({
+				'email': document.forms["login"]["email"].value,
+				'pass': document.forms["login"]["pass"].value,
+			}));
+		}
+
+		function login_response() {
+			var msg = document.getElementById("logmsg");
+			var res = JSON.parse(this.responseText);
+			console.log(res);
+			if (res['message'] == 'OK') {
+				var user = res['data'];
+				document.cookie = "login="+user.email;
+				if (user.isFullyRegistered == 0) {
+					msg = document.getElementById('login');
+					reload = msg.getElementsByClassName('inner')[0];
+					reload.innerHTML = "Welcome "+user.name+"<br>You'll be redirected soon!"
+					setInterval(function () {
+						location.href = "/registration";
+					}, 2000);
+				} else {
+					location.reload();
+				}
+			} else {
+				msg.innerHTML = "*" + res['message'];
+			}
+			console.log(res);
+		}
+
 body
 	div#header
 
@@ -15,9 +88,10 @@ body
 			div.mybutton(onclick="show('login')") Login
 			<br> 
 			div.mybutton(onclick="show('register')") Register
+
 	div.overlay(id="login" style="display: none")
 		div.inner
-			form(name="login" onsubmit="login_validate(); return false;")
+			form(name="login" onsubmit="login_submit(); return false;")
 				h1.title Login
 				p#logmsg
 				div.mybutton(onclick="hide('login');") Back
@@ -31,7 +105,7 @@ body
 					input(type="submit" value="Login")
 	div.overlay#register(style="display: none")
 		div.inner
-			form(name="register" onsubmit="register_validate(); return false;")
+			form(name="register" onsubmit="register_submit(); return false;")
 				h1.title Register
 				p#regmsg
 				div.mybutton(onclick="hide('register');") Back
@@ -47,64 +121,5 @@ body
 					input(type="password" name="cpass" required)
 				p
 					input(type="submit" value="Register")
-	div#chat Hi
 
-script.
-	function show(item) {
-		var elem = document.getElementById(item);
-		elem.style.display = "block";
-	}
-	
-	function hide(item) {
-		var elem = document.getElementById(item);
-		elem.style.display = "none";
-	}
-	
-	function register_validate() {
-		console.log("Register");
-		xhr = new XMLHttpRequest();
-		xhr.open("POST", 'api/register', true);	
-		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.onload = function() {
-			var msg = document.getElementById("regmsg");
-			var data = JSON.parse(this.responseText);
-			if (data['message'] == 'OK') {
-				location.reload();
-			} else {
-				msg.innerHTML = "*" + data['errmsg'];
-			}
-			console.log(data);
-		};
-		xhr.send(JSON.stringify({
-			'name': document.forms["register"]["name"].value,
-			'surname': document.forms["register"]["surname"].value,
-			'email': document.forms["register"]["email"].value,
-			'pass': document.forms["register"]["pass"].value,
-			'cpass': document.forms["register"]["cpass"].value
-		}));
-	}
-	
-	function login_validate() {
-		console.log("Login");
-		xhr = new XMLHttpRequest();
-		xhr.open("POST", 'api/login', true);
-		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.onload = function() {
-			var msg = document.getElementById("logmsg");
-			var data = JSON.parse(this.responseText);
-			if (data['message'] == 'OK') {
-				document.cookie = "login="+document.forms["login"]["email"].value+"path=";
-				if (data['data'].isFullyRegistered == 0)
-					location.href = "/registration";
-				else
-					location.reload();
-			} else {
-				msg.innerHTML = "*" + data['message'];
-			}
-			console.log(data);
-		};
-		xhr.send(JSON.stringify({
-			'email': document.forms["login"]["email"].value,
-			'pass': document.forms["login"]["pass"].value,
-		}));
-	}
+

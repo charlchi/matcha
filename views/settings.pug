@@ -48,30 +48,35 @@ body(style="background-color: #300;")
 
 script.
 
-	function register_validate() {
-		console.log(document.forms["register"]['gender'].value);
-		console.log(document.forms["register"]['interest'].value);
-		console.log(document.forms["register"]['age'].value);
-		/*
+	function register_submit() {
+		console.log("Register");
 		xhr = new XMLHttpRequest();
-		xhr.open("POST", '/api/register', true);	
+		xhr.open("POST", 'api/updateSettings', true);	
 		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.onload = function() {
-			var msg = document.getElementById("regmsg");
-			var data = JSON.parse(this.responseText);
-			if (data['message'] == 'OK') {
-				location.reload();
-			} else {
-				msg.innerHTML = "*" + data['message'];
-			}
-			console.log(data);
-		};
+		xhr.onload = register_response;
 		xhr.send(JSON.stringify({
+			// TODO GET FORM DATA
 			'gender': document.forms["register"]["gender"].value,
 			'interest': document.forms["interest"]["surname"].value,
 			'age': document.forms["register"]["age"].value,
 			'bio': document.forms["register"]["bio"].value,
 			'tags': tags
 		}));
-		*/
+	}
+
+	function register_response() {
+		var msg = document.getElementById("regmsg");
+		var data = JSON.parse(this.responseText);
+		if (data['message'] == 'OK') {
+			location.reload();
+		} else {
+			msg.innerHTML = "*" + data['errmsg'];
+		}
+		console.log(data);
+	}
+
+	function register_validate() {
+		console.log(document.forms["register"]['gender'].value);
+		console.log(document.forms["register"]['interest'].value);
+		console.log(document.forms["register"]['age'].value);
 	}

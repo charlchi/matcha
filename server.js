@@ -10,17 +10,11 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
 
-//dfgsdfgmongoose.connect('mongodb://127.0.0.1:27017/matcha/', { useNewUrlParser: true });
-//dfgsdfgvar db = mongoose.connection;
-var port = process.env.PORT || 8080;
 
-//setcookie
-/*
-res.writeHead(200, {
-	'Set-Cookie': 'mycookie=test',
-	'Content-Type': 'text/html'
-});
-*/
+//mongoose.connect('mongodb://127.0.0.1:27017/matcha/', { useNewUrlParser: true });
+mongoose.connect('mongodb://127.0.0.1:27017/matcha', { useNewUrlParser: true });
+var db = mongoose.connection;
+var port = process.env.PORT || 8080;
 
 function parseCookies (request) {
     var list = {};
@@ -33,7 +27,11 @@ function parseCookies (request) {
 }
 
 app.get('/', (req, res) => {
+	var cookies = parseCookies(req);
+	console.log("Cookies:");
+	console.log(cookies);
 	res.writeHead(200, {
+		'Set-Cookie': 'mycookie=test',
 		'Content-Type': 'text/html'
 	});
 	res.write(pug.renderFile('views/index.pug', {title: 'Matcha'}));
@@ -41,8 +39,6 @@ app.get('/', (req, res) => {
 });
 
 app.get('/registration', (req, res) => {
-	var parseCookies(req);
-	console.log(cookies);
 	res.writeHead(200, {'Content-Type': 'text/html'});
 	res.write(pug.renderFile('views/settings.pug', {
 		title: 'Complete Registration'

@@ -44,6 +44,32 @@ exports.register = (req, res) => {
 		}
 };
 
+// TODO UPDATE ALL SETTINGS,, or complete registration
+exports.updateSettings = (req, res) => {
+		if (req.body.pass != req.body.cpass) {
+				res.json({message: 'Passwords don\'t match.'});
+		} else {
+				var user = new User();
+				user.name = req.body.name;
+				user.surname = req.body.surname;
+				user.email = req.body.email;
+				user.isFullyRegistered = 0;
+				bcrypt.hash(req.body.pass, 10, (err, hash) => {
+						if (err) {
+								res.send(err);
+						} else {
+								user.pass = hash;
+								user.save((err) => {
+										if (err)
+												res.send(err);
+										else
+												res.json({message: 'OK'});
+								});
+						}
+				});
+		}
+};
+
 exports.login = (req, res) => {
 		User.findOne({'email': req.body.email}, (err, user) => {
 				if (err) {

@@ -1,7 +1,5 @@
 
-
-
-
+matcha.pug
 ______________Browsing____________
 - The user must be able to easily get a list of suggestions that match his/her profile.
 - You will only propose “interesting” profiles for example, only men for a heterosexual
@@ -22,10 +20,7 @@ resulting list must be sortable and filterable by age, location, “fame rating�
 -----------------------------------------------
 
 
-
-
-
-
+profile.pug
 ______________Profile of other users_______
 - When a user consults a profile, it must appear in his/her visit history.
 - If he has at least one picture “like” another user.
@@ -42,22 +37,11 @@ must be able to “unlike” or be disconnected from that profile
 
 
 
-
-
-
-
-
 ______________Chat_____________
 real time chat from any page
 -----------------------------------------------
 
-
-
-
-
-
-
-
+in a the header??
 ______________Notifications______________
 A user must be notified in real time6 of the following events:
 - The user received a “like”.
@@ -67,3 +51,9 @@ A user must be notified in real time6 of the following events:
 - A connected user “unliked” you.
 A user must be able to see, from any page that a notification hasn’t been read.
 -----------------------------------------------
+
+
+
+
+
+

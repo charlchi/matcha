@@ -10,17 +10,20 @@ router.get('/', function (req, res) {
 
 var userController = require('./userController');
 
+router.route('/getAll')
+    .get(userController.getAll);
+
 router.route('/register')
     .post(userController.register);
+
+router.route('/updateSettings')
+    .post(userController.updateSettings);
 
 router.route('/login')
     .post(userController.login);
 
 router.route('/deleteAll')
     .get(userController.deleteAll);
-
-router.route('/getAll')
-    .get(userController.getAll);
 
 router.route('/getByMail')
     .get(userController.getByMail);
