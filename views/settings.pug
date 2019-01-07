@@ -8,22 +8,22 @@ html
 body(style="background-color: #300;")
 	div#header
 	div.inner
-		form(name="register" onsubmit="register_validate(); return false;")
+		form(name="register" onsubmit="register_submit(); return false;")
 			h3.title #{title}
 			p#regmsg
 			p         Gender
 				select(name="gender")
-					option(value="Adamasgender") Male
-					option(value="Aerogender") Female
-					option(value="Aesthetigender") Other
+					option(value=1) Male
+					option(value=2) Female
+					option(value=4) Other
 			p Sexual interest 
 				select(name="interest")
-					option(value="Male") Male
-					option(value="Female") Female
-					option(value="Both") Both
-					option(value="Other") Other
-					option(value="Other") Male and Other
-					option(value="Other") Female and Other
+					option(value=1) Male
+					option(value=2) Female
+					option(value=3) Both
+					option(value=4) Other
+					option(value=5) Male and Other
+					option(value=6) Female and Other
 			p  Date of Birth 
 				input(type="date" name="age" required)
 			p Add your interests:
@@ -55,12 +55,17 @@ script.
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.onload = register_response;
 		xhr.send(JSON.stringify({
-			// TODO GET FORM DATA
 			'gender': document.forms["register"]["gender"].value,
-			'interest': document.forms["interest"]["surname"].value,
+			'interest': document.forms["register"]["interest"].value,
 			'age': document.forms["register"]["age"].value,
 			'bio': document.forms["register"]["bio"].value,
-			'tags': tags
+			'tags': document.forms["register"]["tags"].value,
+			// TODO once this data is on the server, save the filedata and store file name only
+			'file1': document.forms["register"]["file1"].value,
+			'file2': document.forms["register"]["file2"].value,
+			'file3': document.forms["register"]["file3"].value,
+			'file4': document.forms["register"]["file4"].value,
+			'file5': document.forms["register"]["file5"].value
 		}));
 	}
 
@@ -68,7 +73,7 @@ script.
 		var msg = document.getElementById("regmsg");
 		var data = JSON.parse(this.responseText);
 		if (data['message'] == 'OK') {
-			location.reload();
+			location.href = "/";
 		} else {
 			msg.innerHTML = "*" + data['errmsg'];
 		}

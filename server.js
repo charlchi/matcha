@@ -5,13 +5,17 @@ var mongoose = require('mongoose');
 var pug = require('pug');
 var app = express();
 var apiRoutes = require("./api-routes");
-
+var Logger = require('mongodb').Logger;
+  Logger.setLevel('debug');
+  
+  // Set our own logger
+  Logger.setCurrentLogger(function(msg, context) {
+    console.log(msg, context);
+  });
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
 
-
-//mongoose.connect('mongodb://127.0.0.1:27017/matcha/', { useNewUrlParser: true });
 mongoose.connect('mongodb://127.0.0.1:27017/matcha', { useNewUrlParser: true });
 var db = mongoose.connection;
 var port = process.env.PORT || 8080;
@@ -28,17 +32,27 @@ function parseCookies (request) {
 
 app.get('/', (req, res) => {
 	var cookies = parseCookies(req);
-	console.log("Cookies:");
-	console.log(cookies);
-	res.writeHead(200, {
-		'Set-Cookie': 'mycookie=test',
-		'Content-Type': 'text/html'
-	});
-	res.write(pug.renderFile('views/index.pug', {title: 'Matcha'}));
-	res.end();
+	if (cookies.login == "") {
+		res.writeHead(200, {
+			'Set-Cookie': 'mycookie=test',
+			'Content-Type': 'text/html'
+		});
+		res.write(pug.renderFile('views/index.pug', {title: 'Matcha'}));
+		res.end();
+	} else {
+		// TODO actual
+		res.writeHead(200, {
+			'Set-Cookie': 'mycookie=test',
+			'Content-Type': 'text/html'
+		});
+		res.write(pug.renderFile('views/index.pug', {title: 'Matcha'}));
+		res.end();
+	}
 });
 
 app.get('/registration', (req, res) => {
+	var cookies = parseCookies(req);
+	console.log(cookies.login);
 	res.writeHead(200, {'Content-Type': 'text/html'});
 	res.write(pug.renderFile('views/settings.pug', {
 		title: 'Complete Registration'
@@ -47,9 +61,11 @@ app.get('/registration', (req, res) => {
 });
 
 app.get('/settings', (req, res) => {
+	var cookies = parseCookies(req);
+	console.log(cookies.login);
 	res.writeHead(200, {'Content-Type': 'text/html'});
 	res.write(pug.renderFile('views/settings.pug', {
-		title: 'Modify Settings'
+		title: 'Modify Profile'
 	}));
 	res.end();
 });

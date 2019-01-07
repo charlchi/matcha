@@ -1,5 +1,35 @@
 
-matcha.pug
+
+
+
+main page:
+|  [ search section  ]    [notifications] |
+|  ___________________                    |
+|  [    results      ]                    |
+|                                         |
+|                            [   chat    ]|
+
+
+profile:
+|  [         ]            [notifications] |
+|  [ image   ]     [details]              |
+|  [_________]     [  ...  ]              |
+|                                         |
+| report user                [   chat    ]|
+
+
+[static pages from matcha.com on client] <--> [node api from site]
+
+
+look at this for how to construct queries within the api calls
+https://docs.mongodb.com/manual/reference/operator/query/eq/#op._S_eq
+
+
+geolocation: 
+https://stackoverflow.com/questions/13840516/how-to-find-my-distance-to-a-known-location-in-javascript
+
+
+matcha
 ______________Browsing____________
 - The user must be able to easily get a list of suggestions that match his/her profile.
 - You will only propose “interesting” profiles for example, only men for a heterosexual
@@ -20,7 +50,7 @@ resulting list must be sortable and filterable by age, location, “fame rating�
 -----------------------------------------------
 
 
-profile.pug
+profile
 ______________Profile of other users_______
 - When a user consults a profile, it must appear in his/her visit history.
 - If he has at least one picture “like” another user.
@@ -41,7 +71,6 @@ ______________Chat_____________
 real time chat from any page
 -----------------------------------------------
 
-in a the header??
 ______________Notifications______________
 A user must be notified in real time6 of the following events:
 - The user received a “like”.
@@ -50,10 +79,122 @@ A user must be notified in real time6 of the following events:
 - A “liked” user “liked” back.
 - A connected user “unliked” you.
 A user must be able to see, from any page that a notification hasn’t been read.
+
+1 - add notifications list to user data
+2 - in header on all pages, ping notfications from list, update header icon
+3 - when clicked, go to notifications page
 -----------------------------------------------
 
 
+Foreplay
+
+Preliminary instructions:
+The subject allows the use of a micro-framework, and only that. If material used by the student (if applicable) is not in the list of suggestions of the subject, check that it is indeed a micro-
+framework according to the definition of the subject. As a reminder:
+> We will consider that a "micro-framework" has a router, and possibly some templating. but no ORM, validators or user account management.
+If the tool used is not a micro-framework, the support stops
+Also, if during the defence there is only one warning, error or notice in the web console, select Crash at the top of the page.
+An error code of 500 to 599 is also considered a Crash.
+
+Security:
+The subject insisted on this point : the site must be secure. At least make sure that :
+the passwords are encrypted in the DATABASE
+- input and upload forms have corrected validations
+no SQL injection possible
+If only one of these points is not valid, the defence stops.
 
 
+Features
+
+User account management:
+A user must be able to register, providing at least email address, username, surname, first name and password (secure, a common French word that anyone should not be
+accepted, for example).
+A connected user must be able to fill in an extended profile, and must be able to change this information, as well as the information provided when registering, at any time.
+
+User connection:
+The user must be able to log in with his credentials, and must be able to receive a password reset email in case of oversight.
+The disconnection must be possible from any page of the site.
+
+Consultation:
+The user must be able to consult the people who have consulted his profile (there must therefore be a history of visits to the profile, as well as the people who have "liked"him.
+
+Popularity Score:
+Each user must have a Popularity score. Ask the student to explain his strategy to calculate this score, it must be consistent and minimally relevant.
+
+Geolocation:
+The user must be geolocated to the nearest district. Sir user does not want to be geolocated, strategies must be put in place to make it happen.
+The user must be able to modify his localization on his profile.
+
+Proposed profiles:
+The user should be able to easily find, when logging in, a list of profile suggestions.
+Relevant profiles should be provided to the user, corresponding to his / her sexuality. If the user does not inform his sexuality, he will be considered bisexual.
+Check with the student that the profile proposals are weighted according to three criteria:
+- same geographical area as user
+- maximum of common tags of interest
+- maximum popularity
+Ask the student to explain their strategy to post a list of relevant suggestions.
+
+Research:
+The user must be able to perform an advanced search by selecting one or more criteria such as :
+- age range
+- Popularity score interval
+- location
+- one or more tags of interest
+
+Sorts and filters:
+The list of profile proposals, as well as the search results, must be triable and filterable by:
+- Age
+- location
+- popularity
+- tag
+
+Other users:
+The public profile of a user must include all the information he has provided, apart from his email address and password.
+I must also include its popularity score, and its connection status - if the user appears disconnected, we must see the date of his last visit.
+
+Connection between users:
+A user may like, not like, another user's profile. When two users "compare", they are said to be connected : they can then engage in conversation.
+A user who does not have a photo should not be able to link the profile of another user.
+Another user's profile should clearly indicate whether it is connected to the current user or whether it" likes " the current user.
+
+like <3      <3
+liked   <3   <3
+connected <3 <3
+
+Postponement and blocking:
+You can flag a profile as a "fake account", and block a given user. A blocked user must no longer appear in the search results (or suggestions), and must no longer
+generate notifications.
+
+Chat:
+Two connected users can chat in real time (10 seconds).
+The user must be able to see from any page that they received a message.
+
+Notification:
+In addition, a user must be informed, in real time (a margin of 10 seconds is allowed), of the following events:
+- a "like" in his profile
+- someone visited his profile
+- a user "like” has "like” in return
+- a logged-in user no longer “likes”the current user
+It must be able to see from any page that a notification has not been read.
 
 
+Good practice
+
+Compatibility:
+The site is compatible with Firefox (>=41) and Chrome (>=46) ?
+
+Mobile:
+The site is presentable on mobile and small resolutions ?
+
+
+Bonus
+
+Omniauth Strategies:
+Can the user login via Omniauth ?
+
+Other bonuses;
+Here it is possible to count up to 5 bonuses, the usefulness and relevance of which are judged at the discretion of the corrector.
+As an example, here are the bonuses proposed in the topic :
+- loading pictures from Facebook and/or Google+
+- interactive user card
+- etc…

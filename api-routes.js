@@ -1,13 +1,6 @@
 
 let router = require('express').Router();
 
-router.get('/', function (req, res) {
-    res.json({
-        status: 'Success',
-        message: 'Matcha default response.',
-    });
-});
-
 var userController = require('./userController');
 
 router.route('/getAll')
@@ -27,5 +20,10 @@ router.route('/deleteAll')
 
 router.route('/getByMail')
     .get(userController.getByMail);
+
+router.route('/getMatches')
+    .get(userController.getMatches);
+
+// todo notifications
 
 module.exports = router;
