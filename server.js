@@ -5,13 +5,8 @@ var mongoose = require('mongoose');
 var pug = require('pug');
 var app = express();
 var apiRoutes = require("./api-routes");
-var Logger = require('mongodb').Logger;
-  Logger.setLevel('debug');
-  
-  // Set our own logger
-  Logger.setCurrentLogger(function(msg, context) {
-    console.log(msg, context);
-  });
+const iplocation = require("iplocation").default;
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
@@ -40,7 +35,7 @@ app.get('/', (req, res) => {
 		res.write(pug.renderFile('views/index.pug', {title: 'Matcha'}));
 		res.end();
 	} else {
-		// TODO actual
+		// TODO goto actual app
 		res.writeHead(200, {
 			'Set-Cookie': 'mycookie=test',
 			'Content-Type': 'text/html'
@@ -51,6 +46,10 @@ app.get('/', (req, res) => {
 });
 
 app.get('/registration', (req, res) => {
+	console.log(req.connection.remoteAddress);
+	iplocation(req.connection.remoteAddress, [], (err, res) => {
+		console.log(res.lat, res.lon);
+	});
 	var cookies = parseCookies(req);
 	console.log(cookies.login);
 	res.writeHead(200, {'Content-Type': 'text/html'});

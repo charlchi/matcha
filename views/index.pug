@@ -6,7 +6,53 @@ html
 		link(rel="stylesheet" href="style/style.css")
 		link(rel="shortcut icon" href="favicon.png")
 
+
+body
+	div#header
+
+	div.overlay#start
+		div.inner
+			h1.title #{title}
+			div Connecting lovers since 2018.
+			div.mybutton(onclick="show('login')") Login
+			<br> 
+			div.mybutton(onclick="show('register')") Register
+
+	div.overlay(id="login" style="display: none")
+		div.inner
+			form(name="login" onsubmit="login_submit(); return false;")
+				h1.title Login
+				p#logmsg
+				div.mybutton(onclick="hide('login');") Back
+				p Email    :
+					input(type="text" name="email" required)
+				p Password :
+					input(type="text" name="pass" required)
+				span(style="font-size: 0.7em;") Forgot your password?
+				<br>
+				p
+					input(type="submit" value="Login")
+	div.overlay#register(style="display: none")
+		div.inner
+			form(name="register" onsubmit="register_submit(); return false;")
+				h1.title Register
+				p#regmsg
+				div.mybutton(onclick="hide('register');") Back
+				p Name     :
+					input(type="text" name="name" required)
+				p Surname  :
+					input(type="text" name="surname" required)
+				p Email    :
+					input(type="text" name="email" required)
+				p Password :
+					input(type="password" name="pass" required)
+				p Confirm  :
+					input(type="password" name="cpass" required)
+				p
+					input(type="submit" value="Register")
+
 	script.
+
 		function show(item) {
 			var elem = document.getElementById(item);
 			elem.style.display = "block";
@@ -78,49 +124,4 @@ html
 			}
 			console.log(res);
 		}
-
-body
-	div#header
-
-	div.overlay#start
-		div.inner
-			h1.title #{title}
-			div Connecting lovers since 2018.
-			div.mybutton(onclick="show('login')") Login
-			<br> 
-			div.mybutton(onclick="show('register')") Register
-
-	div.overlay(id="login" style="display: none")
-		div.inner
-			form(name="login" onsubmit="login_submit(); return false;")
-				h1.title Login
-				p#logmsg
-				div.mybutton(onclick="hide('login');") Back
-				p Email    :
-					input(type="text" name="email" required)
-				p Password :
-					input(type="text" name="pass" required)
-				span(style="font-size: 0.7em;") Forgot your password?
-				<br>
-				p
-					input(type="submit" value="Login")
-	div.overlay#register(style="display: none")
-		div.inner
-			form(name="register" onsubmit="register_submit(); return false;")
-				h1.title Register
-				p#regmsg
-				div.mybutton(onclick="hide('register');") Back
-				p Name     :
-					input(type="text" name="name" required)
-				p Surname  :
-					input(type="text" name="surname" required)
-				p Email    :
-					input(type="text" name="email" required)
-				p Password :
-					input(type="password" name="pass" required)
-				p Confirm  :
-					input(type="password" name="cpass" required)
-				p
-					input(type="submit" value="Register")
-
 

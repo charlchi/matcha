@@ -24,6 +24,4 @@ router.route('/getByMail')
 router.route('/getMatches')
     .get(userController.getMatches);
 
-// todo notifications
-
 module.exports = router;

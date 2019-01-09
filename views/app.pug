@@ -1,0 +1,31 @@
+doctype html
+html
+	head
+		title #{user.name}'s Profile
+		link(href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet")
+		link(rel="stylesheet" href="style/style.css")
+		link(rel="shortcut icon" href="favicon.png")
+body(style="background-color: #300;")
+	div#header
+	div.content
+		p User: #{user.name} #{user.surname}
+		p Mail: #{user.email}
+		p Fame: #{user.fame}
+		p Todo: calculate age
+		p Age #{user.age}
+		p Gender #{user.gender}
+		p Todo: Show preferences
+		p Preferences #{user.name}
+		p Todo: Show tags
+		p Tags #{user.name}
+		p Todo: Show location
+		p Location #{user.name}
+		p Bio #{user.name}
+		p phone #{user.name}
+		p create_date #{user.name}
+
+script.
+
+	function template() {
+		
+	}
