@@ -1,31 +1,89 @@
 doctype html
 html
 	head
-		title #{user.name}'s Profile
+		title Matcha
 		link(href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet")
 		link(rel="stylesheet" href="style/style.css")
 		link(rel="shortcut icon" href="favicon.png")
 body(style="background-color: #300;")
+
 	div#header
-	div.content
-		p User: #{user.name} #{user.surname}
-		p Mail: #{user.email}
-		p Fame: #{user.fame}
-		p Todo: calculate age
-		p Age #{user.age}
-		p Gender #{user.gender}
-		p Todo: Show preferences
-		p Preferences #{user.name}
-		p Todo: Show tags
-		p Tags #{user.name}
-		p Todo: Show location
-		p Location #{user.name}
-		p Bio #{user.name}
-		p phone #{user.name}
-		p create_date #{user.name}
+		a(href="/notifs") Matcha
+		span  |       
+		a(href="/notifs") Notifications
+		span  |           
+		a(href="/" onclick="log_out()") Log out
+		
+	br
+
+	div#search_content &#9825; Your potential Matches &#9825;
+	br
+	
+	div#search Refine matches:
+		br
+		p      Age gap:  
+			input(id="inage" type="range" onchange="outage.value = inage.value")
+			output(id="outage" type="text")
+		p     Fame gap:  
+			input(id="ingap" type="range" onchange="outgap.value = ingap.value")
+			output(id="outgap" type="text")
+		p # Common tags:  
+			input(id="intag" type="range" onchange="outtag.value = intag.value")
+			output(id="outtag" type="text")
+		p      Distance:  
+			input(id="indis" type="range" onchange="outdis.value = indis.value")
+			output(id="outdis" type="text")
+		br
+		p Sort by:
+		p Age gap:                
+			input(type="radio") 
+		p Geographic closeness:   
+			input(type="radio") 
+		p Popularity:             
+			input(type="radio")           
+		p Mutual tags:            
+			input(type="radio")
+
+	div#chat Chat window ting skraa
 
 script.
 
-	function template() {
-		
+	function log_out() {
+		document.cookie = "login=";
+		location.href = "/";
+	}
+
+	function search() {
+		xhr = new XMLHttpRequest();
+		xhr.open("GET", 'api/getAll', true);	
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onload = search_populate;
+		xhr.send()
+	}
+
+	function search_populate() {
+		// show 5 matches then paginate
+		var div = document.getElementById("search_content");
+		var data = JSON.parse(this.responseText);
+		var users = data.data;
+		for(var i = 0; i < users.length; i++) {
+			var user = users[i];
+			var str = "<br><div class='match' onclick='view_profile(\""+user.email+"\")'>";
+			str += "[photo]" + "<br>";
+			str += users[i].name + "<br>";
+			str += get_age(users[i].age);
+			str += "<br>-Show location here-<br>";
+			div.innerHTML += str+"</div>";
+		}
+	}
+
+	window.onload = search;
+
+	function get_age(date) {
+		var age = new Date(Date.now() - new Date(date));
+		return Math.abs(age.getUTCFullYear() - 1970);
+	}
+
+	function view_profile(email) {
+		console.log(email);
 	}

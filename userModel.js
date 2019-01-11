@@ -1,5 +1,15 @@
 var mongoose = require('mongoose');
 
+/*
+◦ The gender.
+◦ Sexual preferences.
+◦ A biography.
+◦ A list of interests with tags (ex: #vegan, #geek, #piercing etc...). These tags
+must be reusable.
+◦ Pictures, max 5, including 1 as profile picture.
+*/
+
+// Setup schema
 var userSchema = mongoose.Schema({
     name: {type: String, required: true},
     surname: {type: String, required: true},
@@ -11,13 +21,12 @@ var userSchema = mongoose.Schema({
     gender: Number, // 0, 1, 2 = male female other
     interest: Number,
     preferences: {}, // {0,1} or {0, 2} etc
-    tags: {}, // {'dogs'}
+    tags: [], // {'dogs'}
     likes: {}, // id's of users that this user likes
     connected: {}, // id's of users that are connected to this
     notifications: {}, // notifications???
     location: {}, // longitude/latitude probably
     blocked: {}, // blocked user id's
-    location: [],
     bio: String,
     phone: String,
     create_date: {type: Date, default: Date.now},
@@ -28,8 +37,26 @@ var userSchema = mongoose.Schema({
     file5: String
 });
 
+// Export User model
 var User = module.exports = mongoose.model('user', userSchema);
 
 module.exports.get = function (callback, limit) {
     User.find(callback).limit(limit);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

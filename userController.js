@@ -3,81 +3,82 @@ const bcrypt = require('bcrypt')
 User = require('./userModel');
 
 function parseCookies (request) {
-  var list = {};
-  var rc = request.headers.cookie;
-  rc && rc.split(';').forEach((cookie) => {
-      var parts = cookie.split('=');
-      list[parts.shift().trim()] = decodeURI(parts.join('='));
-  });
-  return list;
+    var list = {};
+    var rc = request.headers.cookie;
+    rc && rc.split(';').forEach((cookie) => {
+        var parts = cookie.split('=');
+        list[parts.shift().trim()] = decodeURI(parts.join('='));
+    });
+    return list;
 }
 
 exports.getAll = (req, res) => {
-	User.get((err, users) => {
-			if (err) {
-					res.json({
-						status: "error",
-						message: err,
-					});
-			} else {
-					res.json({
-						status: "success",
-						message: "Users retrieved successfully",
-						data: users
-					});
-			}
-	});
+		User.get((err, users) => {
+				if (err) {
+						res.json({
+								status: "error",
+								message: err,
+						});
+				} else {
+						res.json({
+								status: "success",
+								message: "Users retrieved successfully",
+								data: users
+						});
+				}
+		});
 };
 
 exports.register = (req, res) => {
-	if (req.body.pass != req.body.cpass) {
-			res.json({message: 'Passwords don\'t match.'});
-	} else {
-			var user = new User();
-			user.name = req.body.name;
-			user.surname = req.body.surname;
-			user.email = req.body.email;
-			user.isFullyRegistered = 0;
-			bcrypt.hash(req.body.pass, 10, (err, hash) => {
-					if (err) {
-							res.send(err);
-					} else {
-							user.pass = hash;
-							user.save((err) => {
-									if (err)
-											res.send(err);
-									else
-											res.json({message: 'OK'});
-							});
-					}
-			});
-	}
+		if (req.body.pass != req.body.cpass) {
+				res.json({message: 'Passwords don\'t match.'});
+		} else {
+				var user = new User();
+				user.name = req.body.name;
+				user.surname = req.body.surname;
+				user.email = req.body.email;
+				user.isFullyRegistered = 0;
+				bcrypt.hash(req.body.pass, 10, (err, hash) => {
+						if (err) {
+								res.send(err);
+						} else {
+								user.pass = hash;
+								user.save((err) => {
+										if (err)
+												res.json({message: 'User already exists!'});
+										else
+												res.json({message: 'OK'});
+								});
+						}
+				});
+		}
 };
 
 // TODO UPDATE ALL SETTINGS,, or complete registration
 exports.updateSettings = (req, res) => {
 	var cookies = parseCookies(req);
-	console.log("{"+cookies.login+"}");
-	User.update(
-		{email: cookies.login},
-		{ $set:
-			{
-				isFullyRegistered: 1,
-				age: req.body.age,
-				interest: req.body.interest,
-				bio: req.body.bio,
-				tags: req.body.tags,
-				location: req.body.location,
-				file1: req.body.file1,
-				file2: req.body.file2,
-				file3: req.body.file3,
-				file4: req.body.file4,
-				file5: req.body.file5
-			}
-		},
-		{upsert: true}
-	);
-	res.json({message: 'OK'});
+	console.log("{"+cookies.login+"}"+"req:");
+	console.log(req.body);
+	var user = {email: cookies.login};
+	var values =
+	{ $set:
+		{
+			isFullyRegistered: 1,
+			age: req.body.age,
+			interest: req.body.interest,
+			bio: req.body.bio,
+			tags: [req.body.tags],
+			file1: req.body.file1,
+			file2: req.body.file2,
+			file3: req.body.file3,
+			file4: req.body.file4,
+			file5: req.body.file5
+		}
+	};
+	User.updateOne(user, values, (err, success) => {
+		if (err) res.json({message: 'Error updating values.'});
+		else res.json({message: 'OK'});
+	});
 };
 
 exports.login = (req, res) => {

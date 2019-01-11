@@ -5,7 +5,6 @@ var mongoose = require('mongoose');
 var pug = require('pug');
 var app = express();
 var apiRoutes = require("./api-routes");
-const iplocation = require("iplocation").default;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -27,29 +26,25 @@ function parseCookies (request) {
 
 app.get('/', (req, res) => {
 	var cookies = parseCookies(req);
-	if (cookies.login == "") {
+	//cookies.login = "";
+	if (cookies.login == "" || cookies.login == undefined) {
 		res.writeHead(200, {
-			'Set-Cookie': 'mycookie=test',
+			'Set-Cookie': 'test=hi',
 			'Content-Type': 'text/html'
 		});
 		res.write(pug.renderFile('views/index.pug', {title: 'Matcha'}));
 		res.end();
 	} else {
-		// TODO goto actual app
 		res.writeHead(200, {
 			'Set-Cookie': 'mycookie=test',
 			'Content-Type': 'text/html'
 		});
-		res.write(pug.renderFile('views/index.pug', {title: 'Matcha'}));
+		res.write(pug.renderFile('views/app.pug', {title: 'Matcha'}));
 		res.end();
 	}
 });
 
 app.get('/registration', (req, res) => {
-	console.log(req.connection.remoteAddress);
-	iplocation(req.connection.remoteAddress, [], (err, res) => {
-		console.log(res.lat, res.lon);
-	});
 	var cookies = parseCookies(req);
 	console.log(cookies.login);
 	res.writeHead(200, {'Content-Type': 'text/html'});

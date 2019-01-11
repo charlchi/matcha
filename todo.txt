@@ -1,5 +1,7 @@
 
-
+put proper limits on input slider, actually send them into the getMatches API call
+do the profile page, blokc, report, like, match, view etc..
+my account?
 
 
 main page:
@@ -74,7 +76,7 @@ real time chat from any page
 ______________Notifications______________
 A user must be notified in real time6 of the following events:
 - The user received a “like”.
-- The user’s profile has been viewed.
+- The user’s profile has been checked.
 - The user received a message.
 - A “liked” user “liked” back.
 - A connected user “unliked” you.
