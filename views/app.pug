@@ -22,16 +22,16 @@ body(style="background-color: #300;")
 	div#search Refine matches:
 		br
 		p      Age gap:  
-			input(id="inage" type="range" onchange="outage.value = inage.value")
+			input(name="age" id="inage" type="range" onchange="outage.value = inage.value")
 			output(id="outage" type="text")
 		p     Fame gap:  
-			input(id="ingap" type="range" onchange="outgap.value = ingap.value")
+			input(name="fame" id="ingap" type="range" onchange="outgap.value = ingap.value")
 			output(id="outgap" type="text")
 		p # Common tags:  
-			input(id="intag" type="range" onchange="outtag.value = intag.value")
+			input(name="tags" id="intag" type="range" onchange="outtag.value = intag.value")
 			output(id="outtag" type="text")
 		p      Distance:  
-			input(id="indis" type="range" onchange="outdis.value = indis.value")
+			input(name="dist" id="indis" type="range" onchange="outdis.value = indis.value")
 			output(id="outdis" type="text")
 		br
 		p Sort by:
@@ -54,12 +54,21 @@ script.
 	}
 
 	function search() {
+		// get logged in user data, send as post to getMatches
+		// then get tag
+
 		xhr = new XMLHttpRequest();
 		xhr.open("GET", 'api/getAll', true);	
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.onload = search_populate;
-		xhr.send()
+		xhr.send(JSON.stringify({ // actually give these names
+			'agemax': document.forms["register"]["age"].value,
+			'famemax': document.forms["register"]["fame"].value,
+			'tagmax': document.forms["register"]["tags"].value,
+			'dismax': document.forms["register"]["dist"].value,
+		}));
 	}
+	
 
 	function search_populate() {
 		// show 5 matches then paginate
