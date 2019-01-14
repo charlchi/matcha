@@ -123,6 +123,7 @@ textarea {
 }
 
 .match {
+	user-select: none;
 	display: inline-block;
 	border: 1px solid white;
 	padding: 9px;
