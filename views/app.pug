@@ -12,39 +12,36 @@ body(style="background-color: #300;")
 		span  |       
 		a(href="/notifs") Notifications
 		span  |           
-		a(href="/" onclick="log_out()") Log out
-		
+		a(href="/" onclick="log_out()") Log out	
 	br
-
 	div#search_content &#9825; Your potential Matches &#9825;
 	br
-	
 	div#search Refine matches:
 		br
-		p      Age gap:  
-			input(name="age" id="inage" type="range" onchange="outage.value = inage.value")
-			output(id="outage" type="text")
-		p     Fame gap:  
-			input(name="fame" id="ingap" type="range" onchange="outgap.value = ingap.value")
-			output(id="outgap" type="text")
-		p # Common tags:  
-			input(name="tags" id="intag" type="range" onchange="outtag.value = intag.value")
-			output(id="outtag" type="text")
-		p      Distance:  
-			input(name="dist" id="indis" type="range" onchange="outdis.value = indis.value")
-			output(id="outdis" type="text")
-		br
-		p Sort by:
-		p Age gap:                
-			input(type="radio") 
-		p Geographic closeness:   
-			input(type="radio") 
-		p Popularity:             
-			input(type="radio")           
-		p Mutual tags:            
-			input(type="radio")
-
-	div#chat Chat window ting skraa
+		form(name="register" onsubmit="register_submit(); return false;")
+			p      Age gap:  
+				input(name="age" id="inage" type="range" onchange="outage.value = inage.value")
+				output(id="outage" type="text")
+			p     Fame gap:  
+				input(name="fame" id="ingap" type="range" onchange="outgap.value = ingap.value")
+				output(id="outgap" type="text")
+			p # Common tags:  
+				input(name="tags" id="intag" type="range" onchange="outtag.value = intag.value")
+				output(id="outtag" type="text")
+			p      Distance:  
+				input(name="dist" id="indis" type="range" onchange="outdis.value = indis.value")
+				output(id="outdis" type="text")
+			br
+			p Sort by:
+			p Age gap:                
+				input(type="radio") 
+			p Geographic closeness:   
+				input(type="radio") 
+			p Popularity:             
+				input(type="radio")           
+			p Mutual tags:            
+				input(type="radio")
+	div#chat Chat window
 
 script.
 

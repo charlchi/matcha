@@ -11,7 +11,7 @@ body(style="background-color: #300;")
 		form(name="register" onsubmit="register_submit(); return false;")
 			h3.title #{title}
 			p#regmsg
-			p         Gender
+			p          Gender 
 				select(name="gender")
 					option(value=1) Male
 					option(value=2) Female
@@ -24,14 +24,13 @@ body(style="background-color: #300;")
 					option(value=4) Other
 					option(value=5) Male and Other
 					option(value=6) Female and Other
-			p  Date of Birth 
+			p   Date of Birth 
 				input(type="date" name="age" required)
-			p Add your interests:
-			p Search 
-				input(type="text" name="tags" required)
-			p Bio:
+			p Add tags to your profile:
 			p 
-				textarea(rows="4" cols="50" name="bio" required)
+				input(type="text" name="tags") 
+				input(type="button" value="Add" onclick="add_tag(); return false;")
+			div#tag_container &nbsp;
 			p Upload 5 pictures of yourself:
 			p 1 :
 				input(type="file" name="file1")
@@ -43,10 +42,38 @@ body(style="background-color: #300;")
 				input(type="file" name="file4")
 			p 5 : 
 				input(type="file" name="file5")
+			p Bio:
+			p 
+				textarea(rows="4" cols="50" name="bio" required)
 			p
 				input(type="submit" value="Register")
 
 script.
+
+	tags = [];
+
+	function remove_elem(event) {
+		var par = document.getElementById("tag_container");
+		tags.splice( tags.indexOf(event.target.id, 1))
+		par.removeChild(event.currentTarget);
+	}
+
+	function add_tag()
+	{
+		var cont = document.getElementById("tag_container");
+		var val = document.forms["register"]["tags"].value;
+		if (val != "" && !tags.includes(val)) {
+			tags.push(val);
+			document.forms["register"]["tags"].value = "";
+			var wrap = document.createElement("div");
+			wrap.className = "wrap";
+			wrap.id = val;
+			wrap.addEventListener("click", remove_elem);
+			wrap.innerHTML = "<span>#"+val+"</span>";
+			cont.appendChild(wrap);
+		}
+		console.log(tags);
+	}	
 
 	function register_submit() {
 		console.log("Register");
@@ -54,12 +81,13 @@ script.
 		xhr.open("POST", 'api/updateSettings', true);	
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.onload = register_response;
+		console.log("file1", document.forms["register"]["file1"].value);
 		xhr.send(JSON.stringify({
 			'gender': document.forms["register"]["gender"].value,
 			'interest': document.forms["register"]["interest"].value,
 			'age': document.forms["register"]["age"].value,
 			'bio': document.forms["register"]["bio"].value,
-			'tags': document.forms["register"]["tags"].value,
+			'tags': tags,
 			// TODO once this data is on the server, save the filedata and store file name only
 			'file1': document.forms["register"]["file1"].value,
 			'file2': document.forms["register"]["file2"].value,

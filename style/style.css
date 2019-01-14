@@ -7,6 +7,7 @@ body {
 }
 
 p {
+	font-size: 0.9em;
 	margin: 3px;
 	white-space: pre;
 }
@@ -27,6 +28,17 @@ h1.title {
 }
 h3.title {
 	border-bottom: 2px solid #f00;
+}
+
+.wrap {
+	user-select: none;
+	font-size: 0.8em;
+	display: inline-block;
+	margin: 2px 4px;
+	background-color: #300;
+	color: white;
+	border-radius: 6px;
+	padding: 2px 5px;
 }
 
 .mybutton {
@@ -59,7 +71,7 @@ h3.title {
 }
 
 .inner {
-    background-color: #800;
+   background-color: #800;
 	width: 400px;
 	margin: 20px auto;
 	padding: 20px 40px;

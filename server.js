@@ -10,7 +10,21 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(express.static(__dirname));
 
-mongoose.connect('mongodb://127.0.0.1:27017/matcha', { useNewUrlParser: true });
+const options = {
+    useNewUrlParser: true,
+    autoIndex: false,
+  	autoReconnect: true,
+    reconnectTries: Number.MAX_VALUE,
+    reconnectInterval: 500,
+    poolSize: 10,
+    bufferMaxEntries: 0,
+    connectTimeoutMS: 10000,
+    socketTimeoutMS: 45000, 
+    family: 4
+};
+mongoose.connect('mongodb://127.0.0.1:27017/matcha', {useNewUrlParser: true}, function(err) {
+    console.log('err', err);
+});
 var db = mongoose.connection;
 var port = process.env.PORT || 8080;
 

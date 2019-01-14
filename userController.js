@@ -67,7 +67,7 @@ exports.updateSettings = (req, res) => {
 			age: req.body.age,
 			interest: req.body.interest,
 			bio: req.body.bio,
-			tags: [req.body.tags],
+			tags: req.body.tags,
 			file1: req.body.file1,
 			file2: req.body.file2,
 			file3: req.body.file3,
@@ -108,7 +108,7 @@ exports.getByMail = (req, res) => {
 			if (err) {
 					return res.json({message: 'Mail not found.'});
 			} else if (user) {
-					return res.json({message: 'OK', data: user});    
+					return res.json({message: 'OK', data: user});
 			} else {
 					return res.json({message: 'Mail not found.'});
 			}
@@ -129,6 +129,7 @@ exports.deleteAll = (req, res) => {
 };
 
 exports.getMatches = (req, res) => {
+  var user = req.body.user;
   //query = {
   //	fame: { $gte: req.body.fameMin, $lte: req.body.fameMax},
   //	age: { $gte: req.body.ageMin, $lte: req.body.ageMax},
@@ -138,7 +139,7 @@ exports.getMatches = (req, res) => {
   //	if (err)
   //	else
 	//});
-	// TODO remove users that are geographically incompatible stuff~~~
+	// TODO remove users that are geographically incompatible
 	// TODO remove users with less than req.body.minTags amount of tags
 	// TODO remove blocked users
 };
