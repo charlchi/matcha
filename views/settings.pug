@@ -4,53 +4,94 @@ html
 		title Matcha
 		link(href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet")
 		link(rel="stylesheet" href="style/style.css")
+		script(src="matcha.js" href="style/style.css")
 		link(rel="shortcut icon" href="favicon.png")
 body(style="background-color: #300;")
-	div#header
 	div.inner
 		form(name="register" onsubmit="register_submit(); return false;")
 			h3.title #{title}
 			p#regmsg
 			p          Gender 
 				select(name="gender")
-					option(value=1) Male
-					option(value=2) Female
-					option(value=4) Other
+					option(value='male') Male
+					option(value='female') Female
+					option(value='other') Other
+			br
 			p Sexual interest 
 				select(name="interest")
-					option(value=1) Male
-					option(value=2) Female
-					option(value=3) Both
-					option(value=4) Other
-					option(value=5) Male and Other
-					option(value=6) Female and Other
+					option(value='male') Male
+					option(value='female') Female
+					option(value='male female') Both
+					option(value='other') Other
+					option(value='male other') Male and Other
+					option(value='female other') Female and Other
+			br
 			p   Date of Birth 
 				input(type="date" name="age" required)
-			p Add tags to your profile:
+			br
+			p Add tags to find others with similar interests:
 			p 
-				input(type="text" name="tags") 
-				input(type="button" value="Add" onclick="add_tag(); return false;")
-			div#tag_container &nbsp;
+				input(id="taglist" list='tags' name='tags' oninput="add_tag()")
+				datalist(id="tags") 
+			div#tag_container
+			br
 			p Upload 5 pictures of yourself:
-			p 1 :
-				input(type="file" name="file1")
+			p 1 : 
+				input(type="file" name="file1" id="image1")
 			p 2 : 
-				input(type="file" name="file2")
+				input(type="file" name="file2" id="image2")
 			p 3 : 
-				input(type="file" name="file3")
+				input(type="file" name="file3" id="image3")
 			p 4 : 
-				input(type="file" name="file4")
+				input(type="file" name="file4" id="image4")
 			p 5 : 
-				input(type="file" name="file5")
+				input(type="file" name="file5" id="image5")
+			br
 			p Bio:
 			p 
-				textarea(rows="4" cols="50" name="bio" required)
+				textarea(rows="4" cols="50" name="bio" maxlength = "200" required)
+			br
 			p
 				input(type="submit" value="Register")
 
 script.
 
-	tags = [];
+	var images = {};
+	var tags = [];
+	var possibleTags;
+	
+	document.getElementById('image1').addEventListener("change", loadImage);
+	document.getElementById('image2').addEventListener("change", loadImage);
+	document.getElementById('image3').addEventListener("change", loadImage);
+	document.getElementById('image4').addEventListener("change", loadImage);
+	document.getElementById('image5').addEventListener("change", loadImage);
+
+	function loadImage(e) {
+		var files = e.target.files;
+		if (FileReader && files && files.length) {
+				var fr = new FileReader();
+				fr.onload = function () {
+					 images[e.target.id] = fr.result;
+					 console.log("test", fr.result);
+				}
+				fr.readAsDataURL(files[0]);
+		 }
+	}
+
+	window.addEventListener("load", function() {
+		xhr = new XMLHttpRequest();
+		xhr.open("GET", 'api/getTags', true);	
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onload = function() {
+			possibleTags = JSON.parse(this.responseText);
+			possibleTags.forEach(function(item) {
+				var option = document.createElement('option');
+				option.value = item;
+				document.getElementById('tags').appendChild(option);
+			});
+		};
+		xhr.send();
+	});
 
 	function remove_elem(event) {
 		var par = document.getElementById("tag_container");
@@ -61,39 +102,40 @@ script.
 	function add_tag()
 	{
 		var cont = document.getElementById("tag_container");
-		var val = document.forms["register"]["tags"].value;
-		if (val != "" && !tags.includes(val)) {
-			tags.push(val);
-			document.forms["register"]["tags"].value = "";
-			var wrap = document.createElement("div");
-			wrap.className = "wrap";
-			wrap.id = val;
-			wrap.addEventListener("click", remove_elem);
-			wrap.innerHTML = "<span>#"+val+"</span>";
-			cont.appendChild(wrap);
+		var val = document.getElementById('taglist').value;
+		var opts = document.getElementById('tags').childNodes;
+		for (var i = 0; i < opts.length; i++) {
+			if (opts[i].value === val) {
+				if (val != "" && !tags.includes(val)) {
+					tags.push(val);
+					var wrap = document.createElement("div");
+					wrap.className = "wrap";
+					wrap.id = val;
+					wrap.addEventListener("click", remove_elem);
+					wrap.innerHTML = "<span>#"+val+"</span>";
+					cont.appendChild(wrap);
+				}
+				document.forms["register"]["tags"].value = "";		
+			}
 		}
-		console.log(tags);
 	}	
-
+	
 	function register_submit() {
-		console.log("Register");
 		xhr = new XMLHttpRequest();
-		xhr.open("POST", 'api/updateSettings', true);	
+		xhr.open("POST", 'api/updateSettings', true);
 		xhr.setRequestHeader('Content-Type', 'application/json');
 		xhr.onload = register_response;
-		console.log("file1", document.forms["register"]["file1"].value);
 		xhr.send(JSON.stringify({
-			'gender': document.forms["register"]["gender"].value,
-			'interest': document.forms["register"]["interest"].value,
+			'gender': document.forms["register"]["gender"].value.split(' '),
+			'interest': document.forms["register"]["interest"].value.split(' '),
 			'age': document.forms["register"]["age"].value,
 			'bio': document.forms["register"]["bio"].value,
 			'tags': tags,
-			// TODO once this data is on the server, save the filedata and store file name only
-			'file1': document.forms["register"]["file1"].value,
-			'file2': document.forms["register"]["file2"].value,
-			'file3': document.forms["register"]["file3"].value,
-			'file4': document.forms["register"]["file4"].value,
-			'file5': document.forms["register"]["file5"].value
+			'file1': images['image1'],
+			'file2': images['image2'],
+			'file3': images['image3'],
+			'file4': images['image4'],
+			'file5': images['image5']
 		}));
 	}
 
@@ -105,11 +147,4 @@ script.
 		} else {
 			msg.innerHTML = "*" + data['errmsg'];
 		}
-		console.log(data);
-	}
-
-	function register_validate() {
-		console.log(document.forms["register"]['gender'].value);
-		console.log(document.forms["register"]['interest'].value);
-		console.log(document.forms["register"]['age'].value);
 	}

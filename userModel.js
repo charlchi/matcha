@@ -18,8 +18,8 @@ var userSchema = mongoose.Schema({
     isFullyRegistered: {type: Number, required: true},
     fame: Number, // between 0 and 5, like stars
     age: Date,
-    gender: Number, // 0, 1, 2 = male female other
-    interest: Number,
+    gender: [], // 0, 1, 2 = male female other
+    interest: [],
     preferences: {}, // {0,1} or {0, 2} etc
     tags: [], // {'dogs'}
     likes: {}, // id's of users that this user likes

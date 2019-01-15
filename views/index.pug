@@ -7,6 +7,7 @@ html
 		link(rel="shortcut icon" href="favicon.png")
 
 	script.
+
 		function show(item) {
 			var elem = document.getElementById(item);
 			elem.style.display = "block";
@@ -66,10 +67,10 @@ html
 				if (user['isFullyRegistered'] == 0) {
 					msg = document.getElementById('login');
 					reload = msg.getElementsByClassName('inner')[0];
-					reload.innerHTML = "Welcome "+user.name+"<br>You'll be redirected soon!"
+					reload.innerHTML = "Welcome "+user.name+"<br>You'll be redirected soon!";
 					setInterval(function () {
 						location.href = "/registration";
-					}, 2000);
+					}, 1200);
 				} else {
 					location.reload();
 				}

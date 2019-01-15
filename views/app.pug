@@ -4,8 +4,9 @@ html
 		title Matcha
 		link(href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet")
 		link(rel="stylesheet" href="style/style.css")
+		script(src="matcha.js" href="style/style.css")
 		link(rel="shortcut icon" href="favicon.png")
-body(style="background-color: #300;")
+body
 
 	div#header
 		a(href="/notifs") Matcha
@@ -15,7 +16,7 @@ body(style="background-color: #300;")
 		a(href="/" onclick="log_out()") Log out	
 	br
 	div#container
-		div#search_content &#9825; Your potential Matches &#9825;
+		div#search_content &#9825; Your Matches &#9825;
 		br
 		div#search Refine matches:
 			br
@@ -35,62 +36,68 @@ body(style="background-color: #300;")
 				br
 				p Sort by:
 				p Age gap:                
-					input(type="radio") 
+					input(type="radio" name="sort") 
 				p Geographic closeness:   
-					input(type="radio") 
+					input(type="radio" name="sort") 
 				p Popularity:             
-					input(type="radio")           
+					input(type="radio" name="sort")           
 				p Mutual tags:            
-					input(type="radio")
+					input(type="radio" name="sort")
 	div#chat Chat window
 
 script.
 
-	var save;
-
-	function log_out() {
-		document.cookie = "login=";
-		location.href = "/";
-	}
-
-	function search() {
-		// get logged in user data, send as post to getMatches
-		// then get tag
-
-		xhr = new XMLHttpRequest();
-		xhr.open("GET", 'api/getAll', true);	
-		xhr.setRequestHeader('Content-Type', 'application/json');
-		xhr.onload = search_populate;
-		xhr.send(JSON.stringify({ // actually give these names
-			'agemax': document.forms["register"]["age"].value,
-			'famemax': document.forms["register"]["fame"].value,
-			'tagmax': document.forms["register"]["tags"].value,
-			'dismax': document.forms["register"]["dist"].value,
-		}));
-	}
-	
-
-	function search_populate() {
-		// show 5 matches then paginate
-		var div = document.getElementById("search_content");
-		var data = JSON.parse(this.responseText);
-		var users = data.data;
-		for(var i = 0; i < users.length; i++) {
-			var user = users[i];
-			var str = "<br><div class='match' onclick='view_profile(\""+user.email+"\")'>";
-			str += "[photo]" + "<br>";
-			str += users[i].name + "<br>";
-			str += get_age(users[i].age);
-			str += "<br>-Show location here-<br>";
-			div.innerHTML += str+"</div>";
-		}
-	}
-
 	window.addEventListener("load", search);
 	window.addEventListener("load", function() {
 		save = document.getElementById("container").innerHTML;
-		console.log(save);
 	});
+
+	var save;
+
+	function search() {
+		xhr = new XMLHttpRequest();
+		xhr.open("GET", 'api/getByMail', true);	
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onload = function() {
+			user = JSON.parse(this.responseText).data;
+			console.log("logged:", user);
+			xhr = new XMLHttpRequest();
+			xhr.open("POST", 'api/getMatches', true);	
+			xhr.setRequestHeader('Content-Type', 'application/json');
+			xhr.onload = search_populate;
+			xhr.send(JSON.stringify({ // actually give these names
+				user: user
+				//'agemax': document.forms["register"]["age"].value,
+				//'famemax': document.forms["register"]["fame"].value,
+				//'tagmax': document.forms["register"]["tags"].value,
+				//'dismax': document.forms["register"]["dist"].value,
+			}));
+		}
+		var logged = parseCookies(document.cookie).login;
+		console.log("logged", parseCookies(document.cookie).login);
+		xhr.send(JSON.stringify({email: logged}));
+	}
+
+	function search_populate() {
+		var data = JSON.parse(this.responseText);
+		if (data.message == "OK") {
+			console.log("succes", data.data);
+			var div = document.getElementById("search_content");
+			var users = data.data;
+			for(var i = 0; i < users.length; i++) {
+				var user = users[i];
+				var str = "<br><div class='match' onclick='view_profile(\""+user.email+"\")'>";
+				str += "<img class='profilepic' src="+user.file1+" />" + "<br>";
+				str += user.name + "<br>";
+				str += "Interested in: "+ user.interest + "<br>";
+				str += get_age(user.age);
+				str += "<br>-Show location here-<br>";
+				div.innerHTML += str+"</div>";
+			}
+		} else {
+			console.log(data.message, data.data);
+		}
+	}
 
 	function get_age(date) {
 		var age = new Date(Date.now() - new Date(date));
@@ -99,13 +106,24 @@ script.
 
 	function view_profile(email) {
 		console.log(email);
-		var cont = document.getElementById("container");
-		
+		xhr = new XMLHttpRequest();
+		xhr.open("GET", 'api/getByMail', true);	
+		xhr.setRequestHeader('Content-Type', 'application/json');
+		xhr.onload = display_profile;
+		xhr.send(JSON.stringify({'mail' : email}));
 	}
 
-
-
-
-
-
-
+	function display_profile() {
+		// TODO display more stuff
+		var div = document.getElementById('container');
+		div.innerHTML = "";
+		var user = JSON.parse(this.responseText).data;
+		var cont = document.getElementById("container");
+		var str = "<div id='search_content'>";
+		str += "<br><div class='match'>";
+		str += "<img src="+user.file1+" />" + "<br>";
+		str += user.name + "<br>";
+		str += get_age(user.age);
+		str += "<br>-Show location here-<br>";
+		div.innerHTML += str+"</div><br><br></div>";
+	}

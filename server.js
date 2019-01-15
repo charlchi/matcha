@@ -23,7 +23,8 @@ const options = {
     family: 4
 };
 mongoose.connect('mongodb://127.0.0.1:27017/matcha', {useNewUrlParser: true}, function(err) {
-    console.log('err', err);
+    if (err)
+    	console.log('err', err);
 });
 var db = mongoose.connection;
 var port = process.env.PORT || 8080;

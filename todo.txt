@@ -1,31 +1,15 @@
 
+TODO:
+-match search should paginate, should include tag search and 
+-chat
+-notifications
+
 put proper limits on input slider, actually send them into the getMatches API call
 do the profile page, blokc, report, like, match, view etc..
 my account?
 
-
-main page:
-|  [ search section  ]    [notifications] |
-|  ___________________                    |
-|  [    results      ]                    |
-|                                         |
-|                            [   chat    ]|
-
-
-profile:
-|  [         ]            [notifications] |
-|  [ image   ]     [details]              |
-|  [_________]     [  ...  ]              |
-|                                         |
-| report user                [   chat    ]|
-
-
-[static pages from matcha.com on client] <--> [node api from site]
-
-
 look at this for how to construct queries within the api calls
 https://docs.mongodb.com/manual/reference/operator/query/eq/#op._S_eq
-
 
 geolocation: 
 https://stackoverflow.com/questions/13840516/how-to-find-my-distance-to-a-known-location-in-javascript
